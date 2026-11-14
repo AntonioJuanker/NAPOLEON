@@ -1,1 +1,410 @@
-Pagina web de Napoleon 
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1ede4">
+  <meta name="description" content="Una mirada a la vida, el poder y el legado de Napoleón Bonaparte.">
+  <title>Napoleón — Una vida, una era</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f1ede4;
+      --ink: #1c2924;
+      --muted: #77786e;
+      --red: #a74734;
+      --gold: #c69b58;
+      --line: rgba(28, 41, 36, .18);
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    .page-shell { max-width: 1600px; margin: 0 auto; overflow: hidden; }
+    .topbar {
+      height: 92px;
+      padding: 0 7.2%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      text-decoration: none;
+    }
+    .brand-mark {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      color: var(--red);
+      font: italic 24px var(--serif);
+    }
+    .brand-name {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      line-height: 1.65;
+      text-transform: uppercase;
+    }
+    .brand-name span { display: block; color: var(--muted); font-size: 8px; letter-spacing: .24em; }
+    .nav { display: flex; gap: clamp(20px, 4vw, 58px); }
+    .nav a {
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: .07em;
+      transition: color .2s ease;
+    }
+    .nav a:hover, .nav a:focus-visible { color: var(--red); }
+
+    .hero {
+      min-height: 670px;
+      padding: 65px 10% 62px 12%;
+      display: grid;
+      grid-template-columns: 1.06fr .94fr;
+      align-items: center;
+      gap: 3%;
+      position: relative;
+    }
+    .hero-copy { position: relative; z-index: 1; padding-bottom: 25px; }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 25px;
+      color: var(--red);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 29px; height: 1px; background: var(--red); }
+    h1 {
+      margin: 0 0 14px -7px;
+      font: 400 clamp(76px, 11vw, 151px)/.79 var(--serif);
+      letter-spacing: -.075em;
+    }
+    .hero-subtitle {
+      max-width: 410px;
+      margin: 30px 0 17px;
+      font: 400 clamp(23px, 2.7vw, 35px)/1.18 var(--serif);
+    }
+    .hero-description {
+      max-width: 385px;
+      margin: 0;
+      color: #65675f;
+      font-size: 13px;
+      line-height: 1.9;
+    }
+    .hero-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      margin-top: 31px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--red);
+      color: var(--red);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .hero-link span { font-size: 17px; transition: transform .2s ease; }
+    .hero-link:hover span { transform: translateY(3px); }
+
+    .portrait-wrap {
+      min-height: 500px;
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+    .portrait-wrap::before {
+      content: "";
+      position: absolute;
+      width: min(35vw, 450px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(167, 71, 52, .26);
+      border-radius: 50%;
+    }
+    .portrait-wrap::after {
+      content: "";
+      position: absolute;
+      width: min(29vw, 370px);
+      aspect-ratio: 1;
+      border: 1px solid rgba(167, 71, 52, .2);
+      border-radius: 50%;
+    }
+    .portrait {
+      z-index: 1;
+      width: min(100%, 440px);
+      filter: drop-shadow(0 20px 24px rgba(37, 34, 26, .12));
+    }
+    .portrait-note {
+      position: absolute;
+      right: -9%;
+      bottom: 13%;
+      z-index: 2;
+      color: var(--muted);
+      font: italic 12px var(--serif);
+      writing-mode: vertical-rl;
+    }
+    .hero-index {
+      position: absolute;
+      right: 7.2%;
+      top: 50%;
+      color: rgba(28, 41, 36, .34);
+      font: 11px var(--serif);
+      letter-spacing: .15em;
+      writing-mode: vertical-rl;
+    }
+
+    .facts {
+      margin: 0 7.2%;
+      padding: 26px 4.8%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #e8e2d6;
+    }
+    .fact { padding: 0 12%; border-right: 1px solid var(--line); }
+    .fact:last-child { border: 0; }
+    .fact strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--red);
+      font: 400 31px var(--serif);
+    }
+    .fact span { color: #65675f; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+
+    .story {
+      padding: 112px 12% 105px;
+      display: grid;
+      grid-template-columns: .75fr 1.25fr;
+      gap: 12%;
+    }
+    .section-label {
+      margin: 7px 0 0;
+      color: var(--red);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .story h2 {
+      margin: 0 0 24px;
+      font: 400 clamp(38px, 5vw, 61px)/1.02 var(--serif);
+      letter-spacing: -.04em;
+    }
+    .story-intro { max-width: 520px; color: #65675f; font-size: 13px; line-height: 1.9; }
+    .timeline {
+      margin-top: 39px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 23px;
+    }
+    .moment { padding-top: 17px; border-top: 1px solid var(--line); }
+    .moment time { color: var(--red); font: italic 17px var(--serif); }
+    .moment h3 { margin: 9px 0 7px; font: 400 18px var(--serif); }
+    .moment p { margin: 0; color: #77786e; font-size: 11px; line-height: 1.7; }
+
+    .closing {
+      padding: 65px 10%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      background: var(--ink);
+      color: var(--paper);
+    }
+    .closing blockquote {
+      max-width: 720px;
+      margin: 0;
+      font: italic 26px/1.35 var(--serif);
+    }
+    .closing cite {
+      display: block;
+      margin-top: 16px;
+      color: #c9b99b;
+      font: 9px var(--sans);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+    .closing-mark { color: var(--gold); font: 90px/.8 var(--serif); opacity: .8; }
+    footer {
+      padding: 22px 7.2%;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    @media (min-width: 1500px) {
+      .hero { min-height: 760px; }
+    }
+    @media (max-width: 760px) {
+      .topbar { height: 76px; padding: 0 6%; }
+      .nav { gap: 17px; }
+      .nav a { font-size: 9px; }
+      .hero {
+        min-height: auto;
+        padding: 72px 8% 44px;
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .hero-copy { padding: 0; }
+      h1 { font-size: clamp(82px, 18vw, 126px); }
+      .hero-subtitle { margin-top: 25px; }
+      .portrait-wrap { min-height: 390px; margin-top: 18px; }
+      .portrait { width: min(85%, 360px); }
+      .portrait-wrap::before { width: min(75vw, 350px); }
+      .portrait-wrap::after { width: min(62vw, 290px); }
+      .portrait-note { right: 2%; }
+      .hero-index { right: 5%; top: 41%; }
+      .facts { margin: 0 5%; padding: 22px 1%; }
+      .fact { padding: 0 8%; }
+      .fact strong { font-size: 25px; }
+      .fact span { font-size: 8px; letter-spacing: .06em; }
+      .story { padding: 78px 8%; grid-template-columns: 1fr; gap: 24px; }
+      .timeline { gap: 16px; }
+      .closing { padding: 49px 8%; }
+      .closing blockquote { font-size: 22px; }
+      .closing-mark { font-size: 65px; }
+    }
+    @media (max-width: 440px) {
+      .brand-name { font-size: 8px; }
+      .brand-name span { font-size: 7px; }
+      .nav { gap: 12px; }
+      .nav a { font-size: 8px; }
+      .timeline { grid-template-columns: 1fr; gap: 19px; }
+      .moment { display: grid; grid-template-columns: 58px 1fr; column-gap: 13px; }
+      .moment time { grid-row: span 2; }
+      .moment h3 { margin: 0 0 4px; }
+      .closing-mark { display: none; }
+      footer { padding: 19px 6%; font-size: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#inicio" aria-label="Napoleón, volver al inicio">
+        <span class="brand-mark" aria-hidden="true">N</span>
+        <span class="brand-name">Archivo imperial<span>Historia en perspectiva</span></span>
+      </a>
+      <nav class="nav" aria-label="Navegación principal">
+        <a href="#historia">Su historia</a>
+        <a href="#legado">El legado</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Córcega · 1769 — Santa Elena · 1821</p>
+          <h1 id="hero-title">Napoleón</h1>
+          <p class="hero-subtitle">Un hombre.<br>Una era imposible de olvidar.</p>
+          <p class="hero-description">De una isla mediterránea al corazón de Europa. La historia de un estratega que transformó su tiempo y cuyo eco aún resuena.</p>
+          <a class="hero-link" href="#historia">Descubre su historia <span aria-hidden="true">↓</span></a>
+        </div>
+
+        <div class="portrait-wrap" aria-label="Ilustración editorial de Napoleón">
+          <svg class="portrait" viewBox="0 0 460 540" role="img" aria-labelledby="portrait-title">
+            <title id="portrait-title">Retrato ilustrado de Napoleón con uniforme y bicornio</title>
+            <defs>
+              <pattern id="engraving" width="8" height="8" patternTransform="rotate(35)" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0" x2="0" y2="8" stroke="#f1ede4" stroke-opacity=".2" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <circle cx="230" cy="248" r="177" fill="#d9c5a2"/>
+            <circle cx="230" cy="248" r="158" fill="none" stroke="#a74734" stroke-opacity=".4"/>
+            <circle cx="230" cy="248" r="145" fill="none" stroke="#a74734" stroke-opacity=".22" stroke-dasharray="1 7"/>
+            <path d="M66 438c34-25 72-37 111-42l53 23 48-23c43 6 84 19 116 42l28 102H39z" fill="#263c35"/>
+            <path d="M66 438c34-25 72-37 111-42l53 23 48-23c43 6 84 19 116 42l28 102H39z" fill="url(#engraving)"/>
+            <path d="m177 396 53 23-26 121H99l39-94zM278 396l-48 23 26 121h105l-39-94z" fill="#a74734"/>
+            <path d="m193 407 37 12 37-12 17 133h-107z" fill="#e2d4b8"/>
+            <path d="m219 418 11 8 11-8 9 122h-40z" fill="#c69b58"/>
+            <path d="m184 400 46 21-24 34-32-37zM276 400l-46 21 24 34 32-37z" fill="#f1ede4"/>
+            <path d="M201 259c0-49 14-83 39-83 29 0 47 28 47 75v45c0 36-19 64-47 64-26 0-43-25-43-62z" fill="#d8ae83"/>
+            <path d="M205 234c10 9 19 11 29 8 15-4 21-20 27-32 10 16 17 25 27 31v-29c-3-37-23-61-53-61-23 0-42 22-45 54z" fill="#4a3930"/>
+            <path d="M198 218c-10-19-9-42 1-59 16-28 48-37 88-28 23 5 38 16 46 32-31-4-55-3-75 7-20 9-37 25-60 48z" fill="#263c35"/>
+            <path d="M198 218c-10-19-9-42 1-59 16-28 48-37 88-28 23 5 38 16 46 32-31-4-55-3-75 7-20 9-37 25-60 48z" fill="url(#engraving)"/>
+            <path d="M195 219c15-4 27-13 39-24 20-18 51-33 92-33-13-15-28-25-47-30-39-11-71-1-87 27-10 17-11 41 3 60z" fill="none" stroke="#c69b58" stroke-width="3"/>
+            <path d="M244 262c11 4 20 4 28 0M271 278c-3 3-5 5-9 5M248 302c11 5 21 4 31-2" fill="none" stroke="#684d3c" stroke-linecap="round" stroke-width="2"/>
+            <path d="M227 247c-3 12-6 22-7 32 5 3 10 4 16 3" fill="none" stroke="#9e765a" stroke-linecap="round" stroke-width="2"/>
+            <path d="M236 354v42l-16 13 10 12 20-1 18-11-20-15v-40" fill="#c39168"/>
+            <path d="M169 432c20 17 41 22 61 22s43-7 62-22M151 472c50 17 106 18 158 0M137 505c64 13 123 13 187 0" fill="none" stroke="#c69b58" stroke-opacity=".65"/>
+            <circle cx="230" cy="246" r="4" fill="#c69b58"/>
+            <path d="M230 46v13M230 437v13M28 248h13M419 248h13" stroke="#a74734" stroke-opacity=".55"/>
+          </svg>
+          <span class="portrait-note">Retrato de una ambición</span>
+        </div>
+        <span class="hero-index" aria-hidden="true">01 / 03</span>
+      </section>
+
+      <section class="facts" aria-label="Cifras de una vida">
+        <div class="fact"><strong>1769</strong><span>El comienzo en Córcega</span></div>
+        <div class="fact"><strong>1804</strong><span>Coronado emperador</span></div>
+        <div class="fact"><strong>1821</strong><span>El último capítulo</span></div>
+      </section>
+
+      <section class="story" id="historia" aria-labelledby="story-title">
+        <p class="section-label">Una vida en movimiento</p>
+        <div>
+          <h2 id="story-title">El destino no se espera.<br>Se conquista.</h2>
+          <p class="story-intro">Nació lejos de los salones de poder y llegó a rediseñar un continente. Su ascenso fue vertiginoso; su caída, definitiva. Entre ambos, una vida que cambió para siempre la manera de entender Europa.</p>
+          <div class="timeline">
+            <article class="moment">
+              <time datetime="1769">1769</time>
+              <h3>La isla</h3>
+              <p>Nace en Ajaccio, en una Córcega recién incorporada a Francia.</p>
+            </article>
+            <article class="moment">
+              <time datetime="1799">1799</time>
+              <h3>El ascenso</h3>
+              <p>Un golpe de Estado lo sitúa al frente de la nación francesa.</p>
+            </article>
+            <article class="moment">
+              <time datetime="1815">1815</time>
+              <h3>El exilio</h3>
+              <p>Tras Waterloo, el poder da paso a un último destierro.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing" id="legado" aria-label="El legado de Napoleón">
+        <blockquote>
+          «La victoria pertenece al más perseverante.»
+          <cite>— Napoleón Bonaparte</cite>
+        </blockquote>
+        <span class="closing-mark" aria-hidden="true">“</span>
+      </section>
+    </main>
+
+    <footer>
+      <span>Archivo imperial</span>
+      <span>Una vida · Una era</span>
+    </footer>
+  </div>
+</body>
+</html>
